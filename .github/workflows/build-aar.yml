@@ -1,0 +1,44 @@
+name: 构建AAR插件
+
+# 触发条件：推送到main分支时自动构建，或手动触发
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 使用云端Ubuntu系统
+
+    steps:
+      # 步骤1：拉取仓库代码到云端虚拟机
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      # 步骤2：安装JDK 8（Android构建依赖）
+      - name: 配置JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: gradle
+
+      # 步骤3：安装Android SDK和必要组件
+      - name: 配置Android环境
+        uses: android-actions/setup-android@v3
+
+      # 步骤4：安装指定版本的Android构建工具和平台
+      - name: 安装Android组件
+        run: |
+          sdkmanager "build-tools;33.0.0" "platforms;android-33"
+
+      # 步骤5：执行Gradle打包命令（生成Release版本AAR）
+      - name: 构建AAR
+        run: gradle assembleRelease
+
+      # 步骤6：上传打包好的AAR作为产物（方便下载）
+      - name: 上传AAR文件
+        uses: actions/upload-artifact@v4
+        with:
+          name: uniapp-device-info-aar  # 产物名称（自定义）
+          path: build/outputs/aar/*.aar  # AAR生成路径（固定）
