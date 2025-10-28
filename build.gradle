@@ -1,13 +1,15 @@
+// 模块级 build.gradle（与 src 文件夹同级）
 plugins {
-    id 'com.android.library'
+    // 明确指定 Android 插件版本（需与项目级 classpath 版本一致）
+    id 'com.android.library' version '8.2.0' apply false
 }
 
 android {
-    compileSdk 33  // 编译版本，与后续SDK组件一致
-    buildToolsVersion "33.0.0"  // 构建工具版本
+    compileSdk 33  // 编译版本
+    buildToolsVersion "33.0.0"
 
     defaultConfig {
-        minSdk 21  // 最低支持Android版本
+        minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -15,19 +17,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false  // 不混淆代码（测试用）
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17  // 与 JDK 17 匹配
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
 dependencies {
-    // 依赖Uniapp SDK（libs目录下的AAR）
     implementation files('libs/uniapp-v8-release.aar')
-    // 依赖fastjson（如果用到）
-    implementation files('libs/fastjson-1.2.76.jar')
 }
