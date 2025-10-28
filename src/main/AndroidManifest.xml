@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.example.deviceinfo">
+    <application>
+        <!-- 注册插件ID，需与Uniapp调用时的ID一致 -->
+        <meta-data
+            android:name="dcloud.uniapp.nativePlugins"
+            android:value="device-info" />
+    </application>
+</manifest>
