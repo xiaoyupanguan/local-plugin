@@ -1,1 +1,19 @@
-rootProject.name = "uniapp-android-aar"  // 与仓库名保持一致
+pluginManagement {
+    repositories {
+        // 必须包含 google()，否则 com.android.* 插件找不到
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    // 推荐禁止各子项目声明自己的仓库，让根统一管理
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "local-plugin"
